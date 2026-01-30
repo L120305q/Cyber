@@ -37,7 +37,8 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw 'pyqt5 install failed' }
 
             # If there are other requirements, install them (catch-all)
-            python -m pip install -r packaging/requirements-pkg.txt -v 2>&1 | Tee-Object -FilePath pip_install_remaining.log -Encoding utf8 || Write-Host 'Remaining requirements install returned non-zero (continuing)'
+            python -m pip install -r packaging/requirements-pkg.txt -v 2>&1 | Tee-Object -FilePath pip_install_remaining.log -Encoding utf8
+            if ($LASTEXITCODE -ne 0) { Write-Host 'Remaining requirements install returned non-zero (continuing)' }
           } catch {
             Write-Host 'pip install failed; see pip_install_* logs'
             Exit 1
